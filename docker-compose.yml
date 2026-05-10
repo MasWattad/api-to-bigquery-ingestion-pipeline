@@ -1,0 +1,36 @@
+services:
+  airflow:
+    image: apache/airflow:2.10.5-python3.11
+    container_name: api_ingestion_airflow
+    restart: unless-stopped
+
+    environment:
+      AIRFLOW__CORE__EXECUTOR: SequentialExecutor
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "false"
+      AIRFLOW__WEBSERVER__SECRET_KEY: "api-ingestion-demo-secret-key"
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: sqlite:////opt/airflow/airflow.db
+
+      PROJECT_ID: api-ingestion-pipeline
+      LOCATION: US
+      RAW_DATASET: api_raw
+      STG_DATASET: api_stg
+      MART_DATASET: api_mart
+      OPS_DATASET: api_ops
+      FORCE_API_FAILURE: "false"
+      GOOGLE_APPLICATION_CREDENTIALS: /opt/airflow/api-to-bigquery-ingestion-pipeline/credentials/api-ingestion-sa-key.json
+
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./:/opt/airflow/api-to-bigquery-ingestion-pipeline
+
+    ports:
+      - "8080:8080"
+
+    command: >
+      bash -c "
+      pip install requests pandas python-dotenv google-cloud-bigquery pyarrow dbt-bigquery &&
+      airflow db migrate &&
+      airflow users create --username admin --password admin --firstname Mas --lastname Wattad --role Admin --email admin@example.com || true &&
+      airflow standalone
+      "

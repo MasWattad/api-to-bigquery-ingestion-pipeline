@@ -1,0 +1,74 @@
+version: 2
+
+models:
+  - name: dim_products
+    description: "Product dimension built from ingested API product records."
+    columns:
+      - name: product_id
+        tests:
+          - not_null
+          - unique
+      - name: product_title
+        tests:
+          - not_null
+      - name: category
+        tests:
+          - not_null
+      - name: price
+        tests:
+          - not_null
+
+  - name: dim_users
+    description: "User dimension built from ingested API user records."
+    columns:
+      - name: user_id
+        tests:
+          - not_null
+          - unique
+      - name: email
+        tests:
+          - not_null
+
+  - name: fact_order_items
+    description: "Order-item fact table with one row per cart and product."
+    columns:
+      - name: cart_id
+        tests:
+          - not_null
+      - name: user_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_users')
+                field: user_id
+      - name: product_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_products')
+                field: product_id
+      - name: order_date
+        tests:
+          - not_null
+      - name: quantity
+        tests:
+          - not_null
+      - name: item_revenue
+        tests:
+          - not_null
+
+  - name: mart_daily_sales
+    description: "Daily sales mart aggregating order, item, revenue, and AOV metrics."
+    columns:
+      - name: order_date
+        tests:
+          - not_null
+          - unique
+      - name: orders
+        tests:
+          - not_null
+      - name: total_revenue
+        tests:
+          - not_null

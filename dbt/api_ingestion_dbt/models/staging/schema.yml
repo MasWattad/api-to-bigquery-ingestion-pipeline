@@ -1,0 +1,68 @@
+version: 2
+
+models:
+  - name: stg_products
+    description: "Staging model parsing raw product API records into typed and standardized product fields."
+    columns:
+      - name: product_id
+        tests:
+          - not_null
+          - unique
+
+      - name: product_title
+        tests:
+          - not_null
+
+      - name: category
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  - "mens clothing"
+                  - "jewelery"
+                  - "electronics"
+                  - "womens clothing"
+
+      - name: price
+        tests:
+          - not_null
+
+  - name: stg_users
+    description: "Staging model parsing raw user API records into typed user fields."
+    columns:
+      - name: user_id
+        tests:
+          - not_null
+          - unique
+
+      - name: email
+        tests:
+          - not_null
+
+      - name: username
+        tests:
+          - not_null
+
+  - name: stg_order_items
+    description: "Staging model flattening cart records into one row per cart-product item."
+    columns:
+      - name: cart_id
+        tests:
+          - not_null
+
+      - name: user_id
+        tests:
+          - not_null
+
+      - name: product_id
+        tests:
+          - not_null
+
+      - name: order_date
+        tests:
+          - not_null
+
+      - name: quantity
+        tests:
+          - not_null

@@ -1,0 +1,10 @@
+version: 2
+
+sources:
+  - name: api_raw
+    database: api-ingestion-pipeline
+    schema: api_raw
+    tables:
+      - name: raw_products
+      - name: raw_users
+      - name: raw_carts
