@@ -80,7 +80,7 @@ Each raw table (`raw_products`, `raw_users`, `raw_carts`) stores the original AP
 | `_source_file` | Raw JSON filename |
 | `_pipeline_run_id` | Pipeline run identifier |
  
- ![BigQuery Raw Products](screenshots/bigquery_raw_products.png)
+ ![BigQuery Raw Products](screenshots/api_raw.raw_products.png)
  
 ---
  
