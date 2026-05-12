@@ -1,12 +1,16 @@
 # API-to-BigQuery Ingestion Pipeline
 
-A Python-based ELT pipeline that extracts ecommerce API data, lands raw responses, loads BigQuery raw tables with ingestion metadata, transforms the data with dbt, and monitors pipeline health through BigQuery ops tables.
+A Python-based ELT pipeline for extracting ecommerce API data, preserving raw responses, loading them into BigQuery with ingestion metadata, and transforming the data into structured dbt models. The pipeline also tracks run status, freshness, row counts, and failures through BigQuery operational tables, with the full workflow orchestrated by Airflow in Docker.
 
 ---
 
 ## Project Overview
 
-The pipeline preserves raw API data before modeling it into staging, fact, dimension, and mart tables. It adds validation, freshness checks, run logging, failure tracking, and Airflow orchestration so each run can be traced, tested, and monitored from ingestion to dbt outputs.
+The pipeline starts by extracting products, users, and cart data from the Fake Store API and saving the raw responses before any transformation. The raw records are then loaded into BigQuery with metadata such as source endpoint, extraction time, load time, source file, and pipeline run ID.
+
+After ingestion, dbt parses the raw JSON into staging models and builds fact, dimension, and mart tables for downstream analysis. Data quality is enforced with 38 dbt tests, including uniqueness, relationships, accepted values, positive quantity checks, non-negative revenue checks, and future-date validation.
+
+To make the pipeline observable, each run is logged in BigQuery with status, row counts, timestamps, and error messages. Freshness checks and a pipeline health summary provide a simple view of whether the latest run completed successfully and whether the raw tables are up to date.
  
 ---
  
