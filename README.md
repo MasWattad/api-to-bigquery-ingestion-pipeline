@@ -45,7 +45,7 @@ dbt data tests  (38 passing)
 Airflow DAG orchestration
 ```
  
-![Pipeline Success Terminal](screenshots/pipeline_success_terminal.png)
+ ![Pipeline Success Terminal](screenshots/pipeline_success_terminal.png)
  
 ---
  
@@ -76,7 +76,7 @@ Each raw table (`raw_products`, `raw_users`, `raw_carts`) stores the original AP
 | `_source_file` | Raw JSON filename |
 | `_pipeline_run_id` | Pipeline run identifier |
  
-![BigQuery Raw Products](screenshots/bigquery_raw_products.png)
+ ![BigQuery Raw Products](screenshots/bigquery_raw_products.png)
  
 ---
  
@@ -110,7 +110,7 @@ dbt tests enforce correctness at every layer:
 PASS=38  WARN=0  ERROR=0  TOTAL=38
 ```
  
-![dbt Tests Passed](screenshots/dbt_tests_passed.png)
+ ![dbt Tests Passed](screenshots/dbt_tests_passed.png)
  
 ---
  
@@ -122,19 +122,22 @@ The pipeline writes structured run data into three BigQuery ops tables, making p
 - Run ID, start/finish timestamps, status
 - Rows loaded per source entity
 - Error message on failure
-![Pipeline Run Log](screenshots/pipeline_run_log.png)
+  
+ ![Pipeline Run Log](screenshots/pipeline_run_log.png)
  
 **`api_ops.data_freshness_checks`** — per-table freshness tracking:
 - Latest load timestamp and row count
 - Freshness status per table
-![Freshness Checks](screenshots/freshness_checks.png)
+  
+ ![Freshness Checks](screenshots/freshness_checks.png)
  
 **`api_ops.pipeline_health_summary`** — consolidated operational view:
 - Latest run status
 - Rows loaded per entity
 - Count of fresh vs. unhealthy tables
 - Overall pipeline health status
-![Pipeline Health Summary](screenshots/pipeline_health_summary.png)
+  
+ ![Pipeline Health Summary](screenshots/pipeline_health_summary.png)
  
 ### Failure Handling
  
@@ -156,9 +159,10 @@ run_ingestion_pipeline → dbt_run → dbt_test
 | `dbt_run` | Builds staging, fact, dimension, and mart models |
 | `dbt_test` | Runs all 38 dbt data quality tests |
  
-![Airflow DAG Success](screenshots/airflow_dag_success.png)
+ ![Airflow DAG Success](screenshots/airflow_dag_success.png)
  
-![Airflow DAG Summary](screenshots/airflow_dag_summary.png)
+ 
+ ![Airflow DAG Summary](screenshots/airflow_dag_summary.png)
  
 ---
  
