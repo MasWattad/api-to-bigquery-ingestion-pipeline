@@ -92,6 +92,7 @@ Raw records are parsed and modeled into structured, analysis-ready tables.
 - `stg_products`
 - `stg_users`
 - `stg_order_items`
+
 **Mart**
 - `dim_products`
 - `dim_users`
